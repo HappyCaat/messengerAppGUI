@@ -1,6 +1,5 @@
 package messenger.messengerappgui;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -8,13 +7,14 @@ import messenger.Main;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         new Thread(()-> Main.main(new String[0])).start();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setResizable(false);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.messengerappgui.controller.LoginFailController">
+    <effect>
+        <Lighting diffuseConstant="1.17" specularConstant="0.39" specularExponent="28.81" surfaceScale="1.14">
+            <bumpInput>
+                <Shadow />
+            </bumpInput>
+            <light>
+            <Light.Distant>
+               <color>
+                  <Color red="0.4000000059604645" green="0.800000011920929" blue="1.0" />
+               </color>
+            </Light.Distant>
+            </light>
+        </Lighting>
+    </effect>
+    <children>
+        <Button fx:id="okButton" layoutX="185.0" layoutY="131.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="129.0" text="OK" textAlignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <effect>
+                <InnerShadow height="23.39" radius="8.842500000000001" width="13.98">
+                    <color>
+                        <Color red="0.2414814829826355" green="0.3973580300807953" blue="0.4000000059604645" />
+                    </color>
+                </InnerShadow>
+            </effect>
+        </Button>
+      <Label layoutX="91.0" layoutY="54.0" prefHeight="26.0" prefWidth="317.0" text="Invalid login or password. Please try again" textAlignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

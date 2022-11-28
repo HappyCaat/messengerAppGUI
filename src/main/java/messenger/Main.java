@@ -45,26 +45,9 @@ public class Main {
                         }
 
                         case "/login" -> {
-                            writer.println(command);
-                            writer.flush();
-                            System.out.print("Enter login: ");
-                            String login = consoleReader.readLine();
-                            System.out.print("Enter password: ");
-                            String password = consoleReader.readLine();
-                            writer.println(login);
-                            writer.println(password);
-                            writer.flush();
+                            loginUser(consoleReader.readLine(), consoleReader.readLine());
                             //answer
-                            String answer = reader.readLine();
-                            if (!answer.equals("true")) {
-                                System.out.println("failed to login, answer=" + answer);
-                                break;
-                            }
 
-                            int userId = Integer.parseInt(reader.readLine());
-                            System.out.println("Userid is: " + userId);
-                            token = reader.readLine();
-                            System.out.println("Your token is: " + token);
                         }
 
                         case "/sendMessage" -> {
@@ -150,6 +133,32 @@ public class Main {
                 throw new RuntimeException(e);
             }
             System.out.println("disconnected from server");
+        }
+    }
+
+    public static String loginUser(String login, String password) throws IOException {
+        try {
+            writer.println("/login");
+            writer.flush();
+            writer.println(login);
+            writer.println(password);
+            writer.flush();
+
+            //answer
+            String answer = reader.readLine();
+            if (!answer.equals("true")) {
+                System.out.println("failed to login, answer=" + answer);
+                return answer;
+            }
+
+            int userId = Integer.parseInt(reader.readLine());
+            System.out.println("Userid is: " + userId);
+            token = reader.readLine();
+            System.out.println("Your token is: " + token);
+            return answer;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "false";
         }
     }
 
