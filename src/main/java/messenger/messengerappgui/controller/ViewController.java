@@ -42,6 +42,7 @@ public class ViewController {
         });
 
         loginButton.setOnAction(actionEvent -> {
+            loginButton.getScene().getWindow().hide();
             FXMLLoader loader = new FXMLLoader(Application.class.getResource("login.fxml"));
             try {
                 loader.load();
@@ -52,6 +53,7 @@ public class ViewController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.showAndWait();
+
         });
 
     }

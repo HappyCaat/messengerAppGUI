@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import messenger.Main;
 import messenger.messengerappgui.Application;
@@ -48,6 +49,19 @@ public class LoginController {
                 if (!answer.equals("true")) {
                     loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader(Application.class.getResource("login_fail.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Parent root = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.showAndWait();
+
+                } else {
+                    loginButton.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader(Application.class.getResource("message_window.fxml"));
                     try {
                         loader.load();
                     } catch (IOException e) {

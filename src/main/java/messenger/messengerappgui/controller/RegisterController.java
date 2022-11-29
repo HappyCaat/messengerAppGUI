@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import messenger.Main;
 
@@ -31,6 +32,7 @@ public class RegisterController {
 
     @FXML
     void initialize() {
+
         okButton.setOnAction(a -> {
             String name = loginField.getText();
             String password = passwordField.getText();
