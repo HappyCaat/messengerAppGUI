@@ -42,7 +42,6 @@ public class LoginController {
             String login = loginField.getText();
             String password = passwordField.getText();
             System.out.println("login=" + login + " password=" + password);
-
             try {
                 String answer = Main.loginUser(login, password);
                 System.out.println("login answer=" + answer);
@@ -60,7 +59,6 @@ public class LoginController {
                     stage.showAndWait();
 
                 } else {
-                    loginButton.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader(Application.class.getResource("message_window.fxml"));
                     try {
                         loader.load();

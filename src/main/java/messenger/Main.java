@@ -37,7 +37,7 @@ public class Main {
 
                     switch (command) {
                         case "/serverTime" -> {
-                            getServerAnswer(writer, command, reader, "server time is ");
+                            getServerTime();
                         }
 
                         case "/register" -> {
@@ -46,7 +46,6 @@ public class Main {
 
                         case "/login" -> {
                             loginUser(consoleReader.readLine(), consoleReader.readLine());
-                            //answer
 
                         }
 
@@ -94,18 +93,7 @@ public class Main {
                         }
 
                         case "/getUserById" -> {
-                            writer.println(command);
-                            writer.flush();
-                            System.out.println("Enter userId");
-                            String userId = consoleReader.readLine();
-                            writer.println(userId);
-                            writer.flush();
-                            writer.println(token);
-                            writer.flush();
-
-                            //answer
-                            String answer = reader.readLine();
-                            System.out.println("Username: " + answer);
+                            getUserById(consoleReader.readLine());
                         }
 
                         case "/getUserByLogin" -> {
@@ -134,6 +122,41 @@ public class Main {
             }
             System.out.println("disconnected from server");
         }
+    }
+
+    public static String getServerTime() throws IOException {
+        try {
+            writer.println("/serverTime");
+            writer.flush();
+
+            //answer
+            String answer = reader.readLine();
+            System.out.println("Server answer = " + answer);
+            return answer;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+
+    public static String getUserById(String userId) throws IOException {
+        try {
+            writer.println("/getUserById");
+            writer.flush();
+            writer.println(userId);
+            writer.flush();
+            writer.println(token);
+            writer.flush();
+
+            //answer
+            String answer = reader.readLine();
+            System.out.println("Username: " + answer);
+            return answer;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "false";
+        }
+
     }
 
     public static String loginUser(String login, String password) throws IOException {
@@ -170,12 +193,6 @@ public class Main {
         }
     }
 
-    private static void getServerAnswer(PrintWriter writer, String command, BufferedReader reader, String x) throws IOException {
-        writer.println(command);
-        writer.flush();
-        String answer = reader.readLine();
-        System.out.println(x + answer);
-    }
 
     public static String registerUser(String name, String password) {
         try {

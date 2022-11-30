@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.messengerappgui.controller.MessagesWindowController">
+<AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.messengerappgui.controller.MessagesWindowController">
 
     <effect>
         <Lighting diffuseConstant="1.17" specularConstant="0.39" specularExponent="28.81" surfaceScale="1.14">
@@ -63,20 +63,12 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <TextField fx:id="usersTextField" layoutX="6.0" layoutY="42.0" prefHeight="363.0" prefWidth="154.0">
+      <TextField fx:id="usersTextField" alignment="TOP_LEFT" layoutX="6.0" layoutY="42.0" prefHeight="363.0" prefWidth="154.0">
          <effect>
             <DropShadow height="6.96" radius="2.395" width="4.62" />
          </effect>
          <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="messagesTextField" layoutX="168.0" layoutY="42.0" prefHeight="515.0" prefWidth="312.0">
-         <effect>
-            <DropShadow height="6.96" radius="2.395" width="4.62" />
-         </effect>
-         <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
       <TextField fx:id="sendMessageTextField" layoutX="168.0" layoutY="560.0" prefHeight="42.0" prefWidth="210.0" promptText="Message">
@@ -85,6 +77,14 @@
          </effect>
          <font>
             <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="messagesTextField" alignment="TOP_LEFT" layoutX="166.0" layoutY="42.0" prefHeight="510.0" prefWidth="314.0">
+         <effect>
+            <DropShadow height="6.96" radius="2.395" width="4.62" />
+         </effect>
+         <font>
+            <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
    </children>
