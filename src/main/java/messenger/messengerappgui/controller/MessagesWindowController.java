@@ -1,14 +1,14 @@
 package messenger.messengerappgui.controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import messenger.Main;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import messenger.Main;
 
 public class MessagesWindowController {
 
@@ -25,7 +25,7 @@ public class MessagesWindowController {
     private Button getUserNameByLoginButton;
 
     @FXML
-    private TextField messagesTextField;
+    private TextArea messagesTextField;
 
     @FXML
     private Button readMessagesButton;
@@ -40,18 +40,20 @@ public class MessagesWindowController {
     private Button serverTimeButton;
 
     @FXML
-    private TextField usersTextField;
+    private TextArea usersTextField;
 
     @FXML
     void initialize() {
         usersTextField.setEditable(false);
+        usersTextField.setWrapText(true);
         messagesTextField.setEditable(false);
+        messagesTextField.setWrapText(true);
 
         serverTimeButton.setOnAction(actionEvent -> {
             try {
                 String answer = Main.getServerTime();
                 System.out.println("Server time: " + answer);
-                messagesTextField.setText("Current server time: " + answer);
+                messagesTextField.setText("Current server time: " + answer + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -63,7 +65,19 @@ public class MessagesWindowController {
 
             try {
                 String answer = Main.getUserById(userId);
-                usersTextField.setText("Username: " + answer);
+                usersTextField.setText(answer);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        getUserNameByLoginButton.setOnAction(actionEvent -> {
+            String userName = sendMessageTextField.getText();
+
+
+            try {
+               String answer = Main.getUserByLogin(userName);
+               usersTextField.setText(answer);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

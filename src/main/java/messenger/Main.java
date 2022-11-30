@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 @SuppressWarnings({"InfiniteLoopStatement", "resource"})
 public class Main {
@@ -97,19 +100,7 @@ public class Main {
                         }
 
                         case "/getUserByLogin" -> {
-                            writer.println(command);
-                            writer.flush();
-                            System.out.println("Enter username");
-                            String userName = consoleReader.readLine();
-                            writer.println(userName);
-                            writer.println(token);
-                            writer.flush();
-
-                            //answer
-                            String answerLogin = reader.readLine();
-                            System.out.println("Username: " + answerLogin);
-                            String answerId = reader.readLine();
-                            System.out.println("User Id: " + answerId);
+                            getUserByLogin(consoleReader.readLine());
                         }
 
                         default -> System.out.println("unknown command");
@@ -122,6 +113,27 @@ public class Main {
             }
             System.out.println("disconnected from server");
         }
+    }
+
+    public static String getUserByLogin(String userName) throws IOException {
+        try {
+            writer.println("/getUserByLogin");
+            writer.flush();
+            writer.println(userName);
+            writer.println(token);
+            writer.flush();
+
+            //answer
+            String answerLogin = reader.readLine();
+            System.out.println("Username: " + answerLogin);
+            String answerId = reader.readLine();
+            System.out.println("User Id: " + answerId);
+            return answerLogin;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "false";
+        }
+
     }
 
     public static String getServerTime() throws IOException {
