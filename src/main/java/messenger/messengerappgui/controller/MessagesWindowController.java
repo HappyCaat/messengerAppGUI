@@ -8,6 +8,7 @@ import messenger.Main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MessagesWindowController {
@@ -73,11 +74,23 @@ public class MessagesWindowController {
 
         getUserNameByLoginButton.setOnAction(actionEvent -> {
             String userName = sendMessageTextField.getText();
-
-
             try {
                String answer = Main.getUserByLogin(userName);
                usersTextField.setText(answer);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        sendMessageButton.setOnAction(actionEvent -> {
+            try {
+                String userName = Main.getUserByLogin(usersTextField.getText());
+                String textMessage = sendMessageTextField.getText();
+                System.out.println("User: " + userName + "\n" + "Message: " + textMessage);
+
+                String answer = Main.sendMessage(userName,textMessage);
+                System.out.println(answer);
+                messagesTextField.setText("From: " + textMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

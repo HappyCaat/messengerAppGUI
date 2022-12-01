@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 @SuppressWarnings({"InfiniteLoopStatement", "resource"})
 public class Main {
@@ -53,20 +51,7 @@ public class Main {
                         }
 
                         case "/sendMessage" -> {
-                            writer.println(command);
-                            writer.flush();
-                            System.out.println("Enter userId to send message: ");
-                            String userIdToSendMessage = consoleReader.readLine();
-                            System.out.println("Enter text message:");
-                            String textMessage = consoleReader.readLine();
-                            writer.println(userIdToSendMessage);
-                            writer.println(textMessage);
-                            writer.println(token);
-                            writer.flush();
-
-                            //answer
-                            String answer = reader.readLine();
-                            System.out.println("Server answer = " + answer);
+                            sendMessage(consoleReader.readLine(), consoleReader.readLine());
                         }
 
                         case "/readMessages" -> {
@@ -115,6 +100,25 @@ public class Main {
         }
     }
 
+    public static String sendMessage(String userIdToSendMessage, String textMessage) throws IOException {
+        try {
+            writer.println("/sendMessage");
+            writer.flush();
+            writer.println(userIdToSendMessage);
+            writer.println(textMessage);
+            writer.println(token);
+            writer.flush();
+
+            //answer
+            String answer = reader.readLine();
+            System.out.println("Server answer = " + answer);
+            return answer;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+
     public static String getUserByLogin(String userName) throws IOException {
         try {
             writer.println("/getUserByLogin");
@@ -128,7 +132,9 @@ public class Main {
             System.out.println("Username: " + answerLogin);
             String answerId = reader.readLine();
             System.out.println("User Id: " + answerId);
-            return answerLogin;
+            String[] answer = {answerId, answerLogin};
+            String result = Arrays.toString(answer);
+            return result;
         } catch (Throwable e) {
             e.printStackTrace();
             return "false";
