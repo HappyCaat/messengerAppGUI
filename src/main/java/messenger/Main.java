@@ -133,8 +133,7 @@ public class Main {
             String answerId = reader.readLine();
             System.out.println("User Id: " + answerId);
             String[] answer = {answerId, answerLogin};
-            String result = Arrays.toString(answer);
-            return result;
+            return Arrays.toString(answer);
         } catch (Throwable e) {
             e.printStackTrace();
             return "false";

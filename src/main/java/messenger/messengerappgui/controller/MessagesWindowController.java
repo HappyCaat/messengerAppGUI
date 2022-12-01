@@ -8,10 +8,11 @@ import messenger.Main;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MessagesWindowController {
+    private static String userId;
+    private static String userName;
 
     @FXML
     private ResourceBundle resources;
@@ -61,7 +62,7 @@ public class MessagesWindowController {
         });
 
         getUserByIdButton.setOnAction(actionEvent -> {
-            String userId = sendMessageTextField.getText();
+            userId = sendMessageTextField.getText();
             System.out.println("userId: " + userId);
 
             try {
@@ -76,7 +77,10 @@ public class MessagesWindowController {
             String userName = sendMessageTextField.getText();
             try {
                String answer = Main.getUserByLogin(userName);
-               usersTextField.setText(answer);
+               String[] array = answer.split(",");
+               userId = array[0].substring(1);
+               MessagesWindowController.userName = array[1].substring(0, array[1].length() - 1);
+               usersTextField.setText(MessagesWindowController.userName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -84,18 +88,15 @@ public class MessagesWindowController {
 
         sendMessageButton.setOnAction(actionEvent -> {
             try {
-                String userName = Main.getUserByLogin(usersTextField.getText());
                 String textMessage = sendMessageTextField.getText();
-                System.out.println("User: " + userName + "\n" + "Message: " + textMessage);
+                System.out.println("User: " + userId + "\n" + "Message: " + textMessage);
 
-                String answer = Main.sendMessage(userName,textMessage);
+                String answer = Main.sendMessage(userId,textMessage);
                 System.out.println(answer);
-                messagesTextField.setText("From: " + textMessage);
+                messagesTextField.setText(LoginController.getLogin() + ": " + textMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-
     }
-
 }

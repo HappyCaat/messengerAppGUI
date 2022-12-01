@@ -17,6 +17,11 @@ import messenger.Main;
 import messenger.messengerappgui.Application;
 
 public class LoginController {
+    private static String login;
+
+    public static String getLogin() {
+        return login;
+    }
 
     @FXML
     private ResourceBundle resources;
@@ -39,7 +44,7 @@ public class LoginController {
     @FXML
     void initialize() {
         loginButton.setOnAction(actionEvent -> {
-            String login = loginField.getText();
+            login = loginField.getText();
             String password = passwordField.getText();
             System.out.println("login=" + login + " password=" + password);
             try {
