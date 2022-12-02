@@ -8,6 +8,7 @@ import messenger.Main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MessagesWindowController {
@@ -55,7 +56,7 @@ public class MessagesWindowController {
             try {
                 String answer = Main.getServerTime();
                 System.out.println("Server time: " + answer);
-                messagesTextField.setText("Current server time: " + answer + "\n");
+                messagesTextField.setText(messagesTextField.getText() + "Current server time: " + answer + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -67,7 +68,7 @@ public class MessagesWindowController {
 
             try {
                 String answer = Main.getUserById(userId);
-                usersTextField.setText(answer);
+                usersTextField.setText(usersTextField.getText() + " " + answer + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -76,11 +77,11 @@ public class MessagesWindowController {
         getUserNameByLoginButton.setOnAction(actionEvent -> {
             String userName = sendMessageTextField.getText();
             try {
-               String answer = Main.getUserByLogin(userName);
-               String[] array = answer.split(",");
-               userId = array[0].substring(1);
-               MessagesWindowController.userName = array[1].substring(0, array[1].length() - 1);
-               usersTextField.setText(MessagesWindowController.userName);
+                String answer = Main.getUserByLogin(userName);
+                String[] array = answer.split(",");
+                userId = array[0].substring(1);
+                MessagesWindowController.userName = array[1].substring(0, array[1].length() - 1);
+                usersTextField.setText(usersTextField.getText() + MessagesWindowController.userName + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -91,9 +92,21 @@ public class MessagesWindowController {
                 String textMessage = sendMessageTextField.getText();
                 System.out.println("User: " + userId + "\n" + "Message: " + textMessage);
 
-                String answer = Main.sendMessage(userId,textMessage);
+                String answer = Main.sendMessage(userId, textMessage);
                 System.out.println(answer);
-                messagesTextField.setText(LoginController.getLogin() + ": " + textMessage);
+                messagesTextField.setText(messagesTextField.getText() + LoginController.getLogin() + ": " + textMessage + "\n");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        readMessagesButton.setOnAction(actionEvent -> {
+            try {
+                String date = sendMessageButton.getText();
+                System.out.println(date);
+                String messages = Main.readMessages(date);
+                System.out.println(messages);
+                messagesTextField.setText(LoginController.getLogin() + ": " + messages + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

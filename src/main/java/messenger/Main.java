@@ -55,29 +55,7 @@ public class Main {
                         }
 
                         case "/readMessages" -> {
-                            writer.println(command);
-                            System.out.println("Enter since_date");
-                            writer.println(consoleReader.readLine());
-                            writer.println(token);
-                            writer.flush();
-                            boolean isSuccess = reader.readLine().equals("true");
-                            if (isSuccess) {
-                                int messagesCount = Integer.parseInt(reader.readLine());
-                                ArrayList<Message> messages = new ArrayList<>();
-                                for (int i = 0; i < messagesCount; i++) {
-                                    Message message = new Message();
-                                    message.messageId = Integer.parseInt(reader.readLine());
-                                    message.fromUserId = Integer.parseInt(reader.readLine());
-                                    message.toUserId = Integer.parseInt(reader.readLine());
-                                    message.message = reader.readLine();
-                                    message.date = Long.parseLong(reader.readLine());
-                                    messages.add(message);
-                                }
-                                printMessages(messages);
-                            } else {
-                                String failureReason = reader.readLine();
-                                System.out.println("failed to read messages=" + failureReason);
-                            }
+                            readMessages(consoleReader.readLine());
                         }
 
                         case "/getUserById" -> {
@@ -98,6 +76,38 @@ public class Main {
             }
             System.out.println("disconnected from server");
         }
+    }
+
+    public static String readMessages(String date) throws IOException {
+        try {
+            writer.println("/readMessages");
+            System.out.println("Enter since_date");
+            writer.println(date);
+            writer.println(token);
+            writer.flush();
+            boolean isSuccess = reader.readLine().equals("true");
+            ArrayList<Message> messages = new ArrayList<>();
+            if (isSuccess) {
+                int messagesCount = Integer.parseInt(reader.readLine());
+                for (int i = 0; i < messagesCount; i++) {
+                    Message message = new Message();
+                    message.messageId = Integer.parseInt(reader.readLine());
+                    message.fromUserId = Integer.parseInt(reader.readLine());
+                    message.toUserId = Integer.parseInt(reader.readLine());
+                    message.message = reader.readLine();
+                    message.date = Long.parseLong(reader.readLine());
+                    messages.add(message);
+                }
+                printMessages(messages);
+            } else {
+                String failureReason = reader.readLine();
+                System.out.println("failed to read messages=" + failureReason);
+            }
+
+            return String.valueOf(messages);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } return "false";
     }
 
     public static String sendMessage(String userIdToSendMessage, String textMessage) throws IOException {
