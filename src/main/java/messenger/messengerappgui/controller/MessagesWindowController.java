@@ -6,12 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import messenger.Main;
+import messenger.Message;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class MessagesWindowController {
     private static String userId;
@@ -47,6 +46,8 @@ public class MessagesWindowController {
     @FXML
     private TextArea usersTextField;
 
+    private List<Message> allMessages = new ArrayList<>();
+
     @FXML
     void initialize() {
         usersTextField.setEditable(false);
@@ -68,12 +69,8 @@ public class MessagesWindowController {
             userId = sendMessageTextField.getText();
             System.out.println("userId: " + userId);
 
-            try {
-                String answer = Main.getUserById(userId);
-                usersTextField.setText(usersTextField.getText() + " " + answer + "\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            String answer = Main.getUserById(userId);
+            usersTextField.setText(usersTextField.getText() + " " + answer + "\n");
         });
 
         getUserNameByLoginButton.setOnAction(actionEvent -> {
@@ -95,41 +92,58 @@ public class MessagesWindowController {
                 System.out.println("User: " + userId + "\n" + "Message: " + textMessage);
 
                 String answer = Main.sendMessage(userId, textMessage);
-                System.out.println(answer);
-                messagesTextField.setText(messagesTextField.getText() + LoginController.getLogin() + ": " + textMessage + "\n");
+                System.out.println("send attempt answer=" + answer);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        Timer randomTimer = new Timer();
-        randomTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                String date = sendMessageButton.getText();
-                System.out.println(date);
-                String messages;
-                try {
-                    messages = Main.readMessages(date);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                System.out.println(messages);
-                messagesTextField.setText(LoginController.getLogin() + ": " + messages + "\n");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+                           @Override
+                           public void run() {
+                               Platform.runLater(() -> {
+                                   try {
+                                       String sinceDate = "0";
+                                       if (allMessages.size() > 0) {
+                                           sinceDate = ((allMessages.get(allMessages.size() - 1)).date + 1) + "";
+                                       }
+                                       System.out.println("read messages since_date=" + sinceDate);
+                                       ArrayList<Message> newMessages = Main.readMessages(sinceDate);
+                                       if (newMessages.isEmpty()) {
+                                           return;
+                                       }
+                                       allMessages.addAll(newMessages);
+                                       System.out.println("new messages=" + newMessages);
 
-            }
-        }, 0, 1000);
+                                       String messagesAsString = "";
+                                       for (Message message : allMessages) {
+                                           messagesAsString = getUserName(message) + ": " + new Date(message.date)
+                                                   + " " + message.message + "\n" + messagesAsString;
+                                       }
+                                       messagesTextField.setText(messagesAsString);
+                                   } catch (IOException e) {
+                                       throw new RuntimeException(e);
+                                   }
 
-        readMessagesButton.setOnAction(actionEvent -> {
-            try {
-                String date = sendMessageButton.getText();
-                System.out.println(date);
-                String messages = Main.readMessages(date);
-                System.out.println(messages);
-                messagesTextField.setText(LoginController.getLogin() + ": " + messages + "\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                               });
+                           }
+                       }, 0,
+                1000);
+    }
+
+    static HashMap<Integer, String> userNameCache = new HashMap<>();
+
+    private static String getUserName(Message message) {
+        int fromUserId = message.fromUserId;
+
+        String username = userNameCache.get(fromUserId);
+
+        if (username == null) {
+            username = Main.getUserById(fromUserId + "");
+            userNameCache.put(fromUserId, username);
+
+        }
+        return username;
     }
 }

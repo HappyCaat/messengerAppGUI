@@ -78,15 +78,17 @@ public class Main {
         }
     }
 
-    public static String readMessages(String date) throws IOException {
+    public static ArrayList<Message> readMessages(String date) throws IOException {
+        ArrayList<Message> messages = new ArrayList<>();
+
         try {
-            writer.println("/readMessages");
+            write("/readMessages");
             System.out.println("Enter since_date");
-            writer.println(date);
-            writer.println(token);
-            writer.flush();
+            write(date);
+            write(token);
+
             boolean isSuccess = reader.readLine().equals("true");
-            ArrayList<Message> messages = new ArrayList<>();
+
             if (isSuccess) {
                 int messagesCount = Integer.parseInt(reader.readLine());
                 for (int i = 0; i < messagesCount; i++) {
@@ -104,19 +106,25 @@ public class Main {
                 System.out.println("failed to read messages=" + failureReason);
             }
 
-            return String.valueOf(messages);
         } catch (Throwable e) {
             e.printStackTrace();
-        } return "false";
+        }
+        return messages;
+    }
+
+    private static void write(String x) {
+        writer.println(x);
+        System.out.println("written to socket=" + x);
+        writer.flush();
     }
 
     public static String sendMessage(String userIdToSendMessage, String textMessage) throws IOException {
         try {
-            writer.println("/sendMessage");
+            write("/sendMessage");
             writer.flush();
-            writer.println(userIdToSendMessage);
-            writer.println(textMessage);
-            writer.println(token);
+            write(userIdToSendMessage);
+            write(textMessage);
+            write(token);
             writer.flush();
 
             //answer
@@ -131,10 +139,10 @@ public class Main {
 
     public static String getUserByLogin(String userName) throws IOException {
         try {
-            writer.println("/getUserByLogin");
+            write("/getUserByLogin");
             writer.flush();
-            writer.println(userName);
-            writer.println(token);
+            write(userName);
+            write(token);
             writer.flush();
 
             //answer
@@ -153,7 +161,7 @@ public class Main {
 
     public static String getServerTime() throws IOException {
         try {
-            writer.println("/serverTime");
+            write("/serverTime");
             writer.flush();
 
             //answer
@@ -166,13 +174,13 @@ public class Main {
         }
     }
 
-    public static String getUserById(String userId) throws IOException {
+    public static String getUserById(String userId) {
         try {
-            writer.println("/getUserById");
+            write("/getUserById");
             writer.flush();
-            writer.println(userId);
+            write(userId);
             writer.flush();
-            writer.println(token);
+            write(token);
             writer.flush();
 
             //answer
@@ -188,10 +196,10 @@ public class Main {
 
     public static String loginUser(String login, String password) throws IOException {
         try {
-            writer.println("/login");
+            write("/login");
             writer.flush();
-            writer.println(login);
-            writer.println(password);
+            write(login);
+            write(password);
             writer.flush();
 
             //answer
@@ -223,10 +231,10 @@ public class Main {
 
     public static String registerUser(String name, String password) {
         try {
-            writer.println("/register");
+            write("/register");
             writer.flush();
-            writer.println(name);
-            writer.println(password);
+            write(name);
+            write(password);
             writer.flush();
 
             String answer = reader.readLine();
