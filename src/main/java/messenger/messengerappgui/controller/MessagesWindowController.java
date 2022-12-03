@@ -10,6 +10,7 @@ import messenger.Message;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MessagesWindowController {
@@ -104,6 +105,7 @@ public class MessagesWindowController {
                            public void run() {
                                Platform.runLater(() -> {
                                    try {
+                                       SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                                        String sinceDate = "0";
                                        if (allMessages.size() > 0) {
                                            sinceDate = ((allMessages.get(allMessages.size() - 1)).date + 1) + "";
@@ -118,7 +120,7 @@ public class MessagesWindowController {
 
                                        String messagesAsString = "";
                                        for (Message message : allMessages) {
-                                           messagesAsString = getUserName(message) + ": " + new Date(message.date)
+                                           messagesAsString = getUserName(message) + ": " + dateFormat.format(new Date(message.date))
                                                    + " " + message.message + "\n" + messagesAsString;
                                        }
                                        messagesTextField.setText(messagesAsString);
