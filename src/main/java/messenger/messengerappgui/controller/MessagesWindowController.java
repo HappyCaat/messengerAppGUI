@@ -1,5 +1,6 @@
 package messenger.messengerappgui.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -8,8 +9,9 @@ import messenger.Main;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MessagesWindowController {
     private static String userId;
@@ -99,6 +101,24 @@ public class MessagesWindowController {
                 throw new RuntimeException(e);
             }
         });
+
+        Timer randomTimer = new Timer();
+        randomTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String date = sendMessageButton.getText();
+                System.out.println(date);
+                String messages;
+                try {
+                    messages = Main.readMessages(date);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println(messages);
+                messagesTextField.setText(LoginController.getLogin() + ": " + messages + "\n");
+
+            }
+        }, 0, 1000);
 
         readMessagesButton.setOnAction(actionEvent -> {
             try {
