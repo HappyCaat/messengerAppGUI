@@ -7,9 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings({"InfiniteLoopStatement", "resource"})
 public class Main {
+    private static List<User> users = new ArrayList<>();
     private static String token = "";
     private static BufferedReader reader;
     private static PrintWriter writer;
@@ -156,7 +158,6 @@ public class Main {
             e.printStackTrace();
             return "false";
         }
-
     }
 
     public static String getServerTime() throws IOException {
@@ -175,6 +176,7 @@ public class Main {
     }
 
     public static String getUserById(String userId) {
+
         try {
             write("/getUserById");
             writer.flush();
@@ -185,6 +187,7 @@ public class Main {
 
             //answer
             String answer = reader.readLine();
+
             System.out.println("Username: " + answer);
             return answer;
         } catch (Throwable e) {

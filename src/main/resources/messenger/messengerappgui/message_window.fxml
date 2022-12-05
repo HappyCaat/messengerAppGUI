@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
@@ -44,22 +46,12 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="getUserByIdButton" layoutX="7.0" layoutY="414.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="154.0" text="Get User Id">
+      <Button fx:id="addUserButton" layoutX="7.0" layoutY="504.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Add User">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="getUserNameByLoginButton" layoutX="7.0" layoutY="460.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Get Username">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="serverTimeButton" layoutX="6.0" layoutY="509.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Server Time">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="readMessagesButton" layoutX="6.0" layoutY="558.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Read Messages">
+      <Button fx:id="serverTimeButton" layoutX="7.0" layoutY="556.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Server Time">
          <font>
             <Font size="16.0" />
          </font>
@@ -72,14 +64,6 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextArea fx:id="usersTextField" layoutX="7.0" layoutY="42.0" prefHeight="363.0" prefWidth="154.0">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-         <effect>
-            <DropShadow height="4.62" radius="1.81" width="4.62" />
-         </effect>
-      </TextArea>
       <TextArea fx:id="messagesTextField" layoutX="168.0" layoutY="42.0" prefHeight="514.0" prefWidth="313.0">
          <font>
             <Font size="14.0" />
@@ -88,5 +72,18 @@
             <DropShadow height="4.62" radius="1.81" width="4.62" />
          </effect>
       </TextArea>
+      <VBox fx:id="vBox" layoutX="7.0" layoutY="42.0" prefHeight="454.0" prefWidth="154.0">
+         <effect>
+            <DropShadow height="9.3" radius="2.9800000000000004" width="4.62" />
+         </effect>
+         <children>
+            <Button fx:id="user1" mnemonicParsing="false" text="Button" />
+            <Button fx:id="user2" mnemonicParsing="false" text="Button" />
+            <Button fx:id="user3" mnemonicParsing="false" text="Button" />
+         </children>
+         <opaqueInsets>
+            <Insets bottom="5.0" />
+         </opaqueInsets>
+      </VBox>
    </children>
 </AnchorPane>

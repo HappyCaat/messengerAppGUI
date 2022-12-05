@@ -2,11 +2,20 @@ package messenger.messengerappgui.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import messenger.Main;
 import messenger.Message;
+import messenger.User;
+import messenger.messengerappgui.Application;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,9 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MessagesWindowController {
-    private static String userId;
-    private static String userName;
     private List<Message> allMessages = new ArrayList<>();
+    private static List<String> users = new ArrayList<String>();
+
 
     @FXML
     private ResourceBundle resources;
@@ -25,16 +34,13 @@ public class MessagesWindowController {
     private URL location;
 
     @FXML
-    private Button getUserByIdButton;
+    private Button addUserButton;
 
     @FXML
-    private Button getUserNameByLoginButton;
+    private AnchorPane mainWindow;
 
     @FXML
     private TextArea messagesTextField;
-
-    @FXML
-    private Button readMessagesButton;
 
     @FXML
     private Button sendMessageButton;
@@ -46,13 +52,20 @@ public class MessagesWindowController {
     private Button serverTimeButton;
 
     @FXML
-    private TextArea usersTextField;
+    private VBox vBox;
+
+    @FXML
+    private Button user1;
+
+    @FXML
+    private Button user2;
+
+    @FXML
+    private Button user3;
 
 
     @FXML
     void initialize() {
-        usersTextField.setEditable(false);
-        usersTextField.setWrapText(true);
         messagesTextField.setEditable(false);
         messagesTextField.setWrapText(true);
 
@@ -66,33 +79,25 @@ public class MessagesWindowController {
             }
         });
 
-        getUserByIdButton.setOnAction(actionEvent -> {
-            userId = sendMessageTextField.getText();
-            System.out.println("userId: " + userId);
-
-            String answer = Main.getUserById(userId);
-            usersTextField.setText(usersTextField.getText() + " " + answer + "\n");
-        });
-
-        getUserNameByLoginButton.setOnAction(actionEvent -> {
-            String userName = sendMessageTextField.getText();
+        addUserButton.setOnAction(actionEvent -> {
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("enter_username.fxml"));
             try {
-                String answer = Main.getUserByLogin(userName);
-                String[] array = answer.split(",");
-                userId = array[0].substring(1);
-                MessagesWindowController.userName = array[1].substring(0, array[1].length() - 1);
-                usersTextField.setText(usersTextField.getText() + MessagesWindowController.userName + "\n");
+                loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
         });
 
         sendMessageButton.setOnAction(actionEvent -> {
             try {
                 String textMessage = sendMessageTextField.getText();
-                System.out.println("User: " + userId + "\n" + "Message: " + textMessage);
+                System.out.println("User: " + User.getUserId() + "\n" + "Message: " + textMessage);
 
-                String answer = Main.sendMessage(userId, textMessage);
+                String answer = Main.sendMessage(User.getUserId(), textMessage);
                 System.out.println("send attempt answer=" + answer);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -122,16 +127,27 @@ public class MessagesWindowController {
                                        for (Message message : allMessages) {
                                            messagesAsString = getUserName(message) + ": " + dateFormat.format(new Date(message.date))
                                                    + " " + message.message + "\n" + messagesAsString;
+
+                                           if (users.isEmpty()) {
+                                               users.add(getUserName(message));
+                                           }
                                        }
+                                       System.out.println(users);
                                        System.out.println();
                                        messagesTextField.setText(messagesAsString);
+
                                    } catch (IOException e) {
                                        throw new RuntimeException(e);
                                    }
                                });
                            }
-                       }, 0,
-                1000);
+                       }, 0, 1000);
+        user1.setText(User.getUserName());
+        vBox.getChildren().add(user1);
+        user1.setOnAction(actionEvent -> {
+
+        });
+
     }
 
     static HashMap<Integer, String> userNameCache = new HashMap<>();

@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import messenger.Main;
+import messenger.User;
 import messenger.messengerappgui.Application;
 
 public class LoginController {
@@ -44,11 +45,11 @@ public class LoginController {
     @FXML
     void initialize() {
         loginButton.setOnAction(actionEvent -> {
-            login = loginField.getText();
+            String userName = loginField.getText();
             String password = passwordField.getText();
-            System.out.println("login=" + login + " password=" + password);
+            System.out.println("login=" + userName + " password=" + password);
             try {
-                String answer = Main.loginUser(login, password);
+                String answer = Main.loginUser(userName, password);
                 System.out.println("login answer=" + answer);
                 if (!answer.equals("true")) {
                     loginButton.getScene().getWindow().hide();
