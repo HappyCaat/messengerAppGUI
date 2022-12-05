@@ -41,6 +41,7 @@ public class EnterUserNameController {
                 String[] array = answer.split(",");
                 User.setUserId(array[0].substring(1));
                 User.setUserName(array[1].substring(0, array[1].length() - 1));
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
