@@ -16,6 +16,7 @@ import java.util.*;
 public class MessagesWindowController {
     private static String userId;
     private static String userName;
+    private List<Message> allMessages = new ArrayList<>();
 
     @FXML
     private ResourceBundle resources;
@@ -47,7 +48,6 @@ public class MessagesWindowController {
     @FXML
     private TextArea usersTextField;
 
-    private List<Message> allMessages = new ArrayList<>();
 
     @FXML
     void initialize() {
@@ -123,11 +123,11 @@ public class MessagesWindowController {
                                            messagesAsString = getUserName(message) + ": " + dateFormat.format(new Date(message.date))
                                                    + " " + message.message + "\n" + messagesAsString;
                                        }
+                                       System.out.println();
                                        messagesTextField.setText(messagesAsString);
                                    } catch (IOException e) {
                                        throw new RuntimeException(e);
                                    }
-
                                });
                            }
                        }, 0,
@@ -144,7 +144,6 @@ public class MessagesWindowController {
         if (username == null) {
             username = Main.getUserById(fromUserId + "");
             userNameCache.put(fromUserId, username);
-
         }
         return username;
     }
